@@ -1,4 +1,4 @@
-export function MyBrandLogoSVG({
+export function MyThinkTankLogoSVG({
   className,
   width,
   height,
