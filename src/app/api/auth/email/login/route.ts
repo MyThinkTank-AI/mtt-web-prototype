@@ -13,16 +13,6 @@ export async function POST(req: NextRequest) {
 
   const data = await response.json();
 
-  if (!response.ok) {
-    return new Response(
-      JSON.stringify({ error: data.error || "Login failed" }),
-      {
-        status: response.status,
-        headers: { "Content-Type": "application/json" },
-      },
-    );
-  }
-
   return new Response(JSON.stringify(data), {
     status: 200,
     headers: { "Content-Type": "application/json" },
