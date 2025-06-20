@@ -3,7 +3,7 @@ import { NextRequest } from "next/server";
 export async function POST(req: NextRequest) {
   const body = await req.json();
 
-  const response = await fetch("http://192.168.1.78:8080/auth/email/register", {
+  const response = await fetch("http://localhost:8080/auth/email/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

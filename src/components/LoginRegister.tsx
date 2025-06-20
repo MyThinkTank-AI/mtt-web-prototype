@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { Eye, EyeOff, LoaderCircle } from "lucide-react";
 
+import { useAuthContext } from "@/providers/Auth";
+
 function LoginRegister() {
+  const { setUser } = useAuthContext();
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState<{ email: string; password: string }>({
     email: "",
@@ -16,6 +19,7 @@ function LoginRegister() {
   const handleSubmit = async () => {
     setFetching(true);
     // Simulate an API call
+
     const results = await fetch(`/api/auth/email/${type}`, {
       method: "POST",
       headers: {
@@ -25,15 +29,16 @@ function LoginRegister() {
     });
 
     const data = await results.json();
-    console.log(data);
+
+    setUser(data);
 
     setFetching(false);
   };
 
   return (
-    <div className="h-dvh w-full bg-blue-900">
+    <div className="h-dvh w-full bg-[#0A0A0A]">
       <div className="flex h-full items-center justify-center p-4">
-        <div className="-mt-20 flex h-fit max-h-180 min-h-120 w-full max-w-130 flex-col justify-center rounded-md bg-[#FBFBFB] p-6 shadow-md">
+        <div className="-mt-20 flex h-fit max-h-180 min-h-120 w-full max-w-130 flex-col justify-center rounded-md border-2 border-[#232323] bg-[#111111] p-6 shadow-md">
           {loading ? (
             <div className="flex items-center justify-center">
               <LoaderCircle
@@ -44,15 +49,18 @@ function LoginRegister() {
             </div>
           ) : (
             <>
-              <h2 className="text-3xl font-bold">Welcome to MyThinkTank.AI</h2>
-              <p className="text-md mt-4 text-slate-600">
+              <h2 className="text-3xl font-bold text-slate-300">
+                Welcome to{" "}
+                <span className="text-[#CC1A21]">MyThinkTank.AI</span>
+              </h2>
+              <p className="text-md mt-4 text-slate-300">
                 {isLogin ? "Sign in to your account" : "Create an account"}
               </p>
 
               <div className="mt-10">
                 <label
                   htmlFor="email"
-                  className="mb-3.5 block text-sm font-medium text-slate-600 dark:text-white"
+                  className="mb-3.5 block text-sm font-medium text-slate-300 dark:text-white"
                 >
                   Email
                 </label>
@@ -61,14 +69,14 @@ function LoginRegister() {
                   id="email"
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  className="block w-full rounded-lg border border-slate-300 bg-white p-3.5 text-sm text-slate-600 focus:border-2 focus:border-blue-400 focus:ring-blue-400 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                  className="block w-full rounded-lg border border-slate-300 bg-[#111111] p-3.5 text-sm text-slate-300 focus:border-2 focus:border-blue-400 focus:ring-blue-400 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                   required
                 />
               </div>
               <div className="mt-4">
                 <label
                   htmlFor="password"
-                  className="mb-3.5 block text-sm font-medium text-slate-600 dark:text-white"
+                  className="mb-3.5 block text-sm font-medium text-slate-300 dark:text-white"
                 >
                   Password
                 </label>
@@ -80,7 +88,7 @@ function LoginRegister() {
                     onChange={(e) =>
                       setForm({ ...form, password: e.target.value })
                     }
-                    className="block w-full rounded-lg border border-slate-300 bg-white p-3.5 text-sm text-slate-600 focus:border-2 focus:border-blue-400 focus:ring-blue-400 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                    className="block w-full rounded-lg border border-slate-300 bg-[#111111] p-3.5 text-sm text-slate-300 focus:border-2 focus:border-blue-400 focus:ring-blue-400 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                     aria-label="Password"
                     required
                   />
@@ -102,7 +110,7 @@ function LoginRegister() {
                 <button
                   type="submit"
                   onClick={handleSubmit}
-                  className="focus:ring-opacity-50 flex w-full justify-center place-self-center rounded-sm bg-blue-400 px-4 py-3 font-semibold text-white transition-colors duration-200 hover:cursor-pointer hover:bg-blue-500 focus:ring-2 focus:ring-blue-400 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+                  className="focus:ring-opacity-50 flex w-full justify-center place-self-center rounded-sm bg-[#CC1A21] px-4 py-3 font-semibold text-white transition-colors duration-200 hover:cursor-pointer hover:bg-[#B3171D] focus:ring-2 focus:ring-blue-400 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                   disabled={fetching}
                 >
                   {fetching && (
@@ -112,10 +120,10 @@ function LoginRegister() {
                 </button>
               </div>
 
-              <p className="mt-4 text-center text-sm text-slate-600">
+              <p className="mt-4 text-center text-sm text-slate-300">
                 {isLogin ? "Don't " : "Already "} have an account?{" "}
                 <span
-                  className="cursor-pointer text-sm font-medium text-blue-400"
+                  className="cursor-pointer text-sm font-medium text-[#CC1A21]"
                   onClick={() => {
                     setLoading(true);
                     setTimeout(() => {

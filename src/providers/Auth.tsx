@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, useContext, useState } from "react";
 
 import LoginRegister from "@/components/LoginRegister";
 
@@ -9,8 +9,8 @@ interface User {
 
 interface AuthContextType {
   user: User | null;
-  login: () => void;
   logout: () => void;
+  setUser: (data: any) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -18,19 +18,27 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
 
-  const login = () => {};
-
   const logout = () => {};
 
   const value = {
     user,
-    login,
+    setUser,
     logout,
   };
 
-  if (!user) {
-    return <LoginRegister />;
-  }
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={value}>
+      {!user ? <LoginRegister /> : children}
+    </AuthContext.Provider>
+  );
 }
+
+export const useAuthContext = (): AuthContextType => {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error("useAuthContext must be withing a AuthProvider");
+  }
+  return context;
+};
+
+export default AuthContext;
