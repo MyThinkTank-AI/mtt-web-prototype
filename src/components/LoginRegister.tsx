@@ -42,7 +42,7 @@ function LoginRegister() {
           {loading ? (
             <div className="flex items-center justify-center">
               <LoaderCircle
-                className="animate-spin text-blue-500"
+                className="animate-spin text-[#CC1A21]"
                 width={60}
                 height={60}
               />
