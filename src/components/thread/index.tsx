@@ -444,39 +444,42 @@ export function Thread() {
                         className="field-sizing-content resize-none border-none bg-[#111111] bg-transparent p-3.5 pb-0 text-slate-300 shadow-none ring-0 outline-none focus:ring-0 focus:outline-none"
                       />
 
-                      <div className="flex items-center gap-6 p-2 pt-4">
-                        <div>
-                          <div className="flex items-center space-x-2">
-                            <Switch
-                              id="render-tool-calls"
-                              checked={hideToolCalls ?? false}
-                              onCheckedChange={setHideToolCalls}
-                            />
-                            <Label
-                              htmlFor="render-tool-calls"
-                              className="text-sm text-gray-600"
-                            >
-                              Hide Tool Calls
-                            </Label>
+                      <div className="flex flex-wrap-reverse items-center gap-6 p-2 pt-4 sm:flex-wrap">
+                        <div className="flex w-full justify-between gap-6 sm:w-auto sm:justify-start">
+                          <div>
+                            <div className="flex items-center space-x-2">
+                              <Switch
+                                id="render-tool-calls"
+                                checked={hideToolCalls ?? false}
+                                onCheckedChange={setHideToolCalls}
+                              />
+                              <Label
+                                htmlFor="render-tool-calls"
+                                className="text-sm text-gray-600"
+                              >
+                                Hide Tool Calls
+                              </Label>
+                            </div>
                           </div>
+                          <Label
+                            htmlFor="file-input"
+                            className="flex cursor-pointer items-center gap-2"
+                          >
+                            <Plus className="size-5 text-gray-600" />
+                            <span className="text-sm text-gray-600">
+                              Upload PDF or Image
+                            </span>
+                          </Label>
+                          <input
+                            id="file-input"
+                            type="file"
+                            onChange={handleFileUpload}
+                            multiple
+                            accept="image/jpeg,image/png,image/gif,image/webp,application/pdf"
+                            className="hidden"
+                          />
                         </div>
-                        <Label
-                          htmlFor="file-input"
-                          className="flex cursor-pointer items-center gap-2"
-                        >
-                          <Plus className="size-5 text-gray-600" />
-                          <span className="text-sm text-gray-600">
-                            Upload PDF or Image
-                          </span>
-                        </Label>
-                        <input
-                          id="file-input"
-                          type="file"
-                          onChange={handleFileUpload}
-                          multiple
-                          accept="image/jpeg,image/png,image/gif,image/webp,application/pdf"
-                          className="hidden"
-                        />
+
                         {stream.isLoading ? (
                           <Button
                             key="stop"
@@ -489,7 +492,7 @@ export function Thread() {
                         ) : (
                           <Button
                             type="submit"
-                            className="ml-auto bg-[#CC1A21] shadow-md transition-all"
+                            className="ml-auto w-full bg-[#CC1A21] shadow-md transition-all sm:w-auto"
                             disabled={
                               isLoading ||
                               (!input.trim() && contentBlocks.length === 0)

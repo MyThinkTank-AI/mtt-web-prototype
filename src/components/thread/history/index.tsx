@@ -129,10 +129,10 @@ export default function ThreadHistory() {
         >
           <SheetContent
             side="left"
-            className="flex lg:hidden"
+            className="flex bg-[#0F1112] text-slate-300 lg:hidden"
           >
             <SheetHeader>
-              <SheetTitle>Thread History</SheetTitle>
+              <SheetTitle className="text-slate-300">Thread History</SheetTitle>
             </SheetHeader>
             <ThreadList
               threads={threads}
