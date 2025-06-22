@@ -224,7 +224,7 @@ export function Thread() {
     <div className="flex h-screen w-full overflow-hidden bg-[#0A0A0A]">
       <div className="relative hidden lg:flex">
         <motion.div
-          className="absolute z-20 h-full overflow-hidden border-r bg-white"
+          className="absolute z-20 h-full overflow-hidden"
           style={{ width: 300 }}
           animate={
             isLargeScreen
@@ -274,7 +274,7 @@ export function Thread() {
           }
         >
           {!chatStarted && (
-            <div className="absolute top-0 left-0 z-10 flex w-full items-center justify-between gap-3 p-2 pl-4">
+            <div className="absolute top-0 left-0 z-10 flex w-full items-center justify-start gap-3 p-2 pl-4">
               <div>
                 {(!chatHistoryOpen || !isLargeScreen) && (
                   <Button
@@ -290,6 +290,10 @@ export function Thread() {
                   </Button>
                 )}
               </div>
+              <MyThinkTankLogoSVG
+                height={30}
+                width={185}
+              />
             </div>
           )}
           {chatStarted && (
@@ -298,23 +302,28 @@ export function Thread() {
                 <div className="absolute left-0 z-10">
                   {(!chatHistoryOpen || !isLargeScreen) && (
                     <Button
-                      className="hover:bg-gray-100"
+                      className="hover:bg-slate-900"
                       variant="ghost"
                       onClick={() => setChatHistoryOpen((p) => !p)}
                     >
                       {chatHistoryOpen ? (
-                        <PanelRightOpen className="size-5" />
+                        <PanelRightOpen className="size-5 text-slate-300" />
                       ) : (
-                        <PanelRightClose className="size-5" />
+                        <PanelRightClose className="size-5 text-slate-300" />
                       )}
                     </Button>
                   )}
                 </div>
+                <MyThinkTankLogoSVG
+                  height={30}
+                  width={185}
+                  className="ml-12"
+                />
                 <motion.button
                   className="flex cursor-pointer items-center gap-2"
                   onClick={() => setThreadId(null)}
                   animate={{
-                    marginLeft: !chatHistoryOpen ? 48 : 0,
+                    marginLeft: !chatHistoryOpen ? 24 : 0,
                   }}
                   transition={{
                     type: "spring",
@@ -322,11 +331,7 @@ export function Thread() {
                     damping: 30,
                   }}
                 >
-                  <MyThinkTankLogoSVG
-                    width={32}
-                    height={32}
-                  />
-                  <span className="text-xl font-semibold tracking-tight">
+                  <span className="text-xl tracking-tight text-white">
                     Founding Fathers Chat
                   </span>
                 </motion.button>
@@ -344,7 +349,7 @@ export function Thread() {
                 </TooltipIconButton>
               </div>
 
-              <div className="from-background to-background/0 absolute inset-x-0 top-full h-5 bg-gradient-to-b" />
+              <div className="absolute inset-x-0 top-full h-5" />
             </div>
           )}
 
@@ -394,12 +399,9 @@ export function Thread() {
               footer={
                 <div className="sticky bottom-0 flex flex-col items-center gap-8">
                   {!chatStarted && (
-                    <div className="flex items-center gap-3">
-                      <MyThinkTankLogoSVG className="h-8 flex-shrink-0" />
-                      <h1 className="text-2xl font-semibold tracking-tight">
-                        Founding Fathers Chat
-                      </h1>
-                    </div>
+                    <h1 className="text-2xl font-semibold tracking-tight text-slate-300">
+                      Founding Fathers Chat
+                    </h1>
                   )}
 
                   <ScrollToBottom className="animate-in fade-in-0 zoom-in-95 absolute bottom-full left-1/2 mb-4 -translate-x-1/2" />
@@ -407,7 +409,7 @@ export function Thread() {
                   <div
                     ref={dropRef}
                     className={cn(
-                      "bg-muted relative z-10 mx-auto mb-8 w-full max-w-3xl rounded-2xl shadow-xs transition-all",
+                      "relative z-10 mx-auto mb-8 w-full max-w-3xl rounded-2xl bg-[#0F1112] shadow-xs transition-all",
                       dragOver
                         ? "border-primary border-2 border-dotted"
                         : "border border-solid",
@@ -439,7 +441,7 @@ export function Thread() {
                           }
                         }}
                         placeholder="Type your message..."
-                        className="field-sizing-content resize-none border-none bg-[#111111] bg-transparent p-3.5 pb-0 shadow-none ring-0 outline-none focus:ring-0 focus:outline-none"
+                        className="field-sizing-content resize-none border-none bg-[#111111] bg-transparent p-3.5 pb-0 text-slate-300 shadow-none ring-0 outline-none focus:ring-0 focus:outline-none"
                       />
 
                       <div className="flex items-center gap-6 p-2 pt-4">
@@ -479,7 +481,7 @@ export function Thread() {
                           <Button
                             key="stop"
                             onClick={() => stream.stop()}
-                            className="ml-auto"
+                            className="ml-auto bg-[#CC1A21]"
                           >
                             <LoaderCircle className="h-4 w-4 animate-spin" />
                             Cancel
@@ -487,7 +489,7 @@ export function Thread() {
                         ) : (
                           <Button
                             type="submit"
-                            className="ml-auto shadow-md transition-all"
+                            className="ml-auto bg-[#CC1A21] shadow-md transition-all"
                             disabled={
                               isLoading ||
                               (!input.trim() && contentBlocks.length === 0)

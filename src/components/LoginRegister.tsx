@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Eye, EyeOff, LoaderCircle } from "lucide-react";
+import { toast } from "sonner";
 
 import { useAuthContext } from "@/providers/Auth";
 
@@ -30,7 +31,14 @@ function LoginRegister() {
 
     const data = await results.json();
 
-    setUser(data);
+    if (!data.error) {
+      setUser(data);
+    } else {
+      toast.error(data.message, {
+        richColors: true,
+        closeButton: true,
+      });
+    }
 
     setFetching(false);
   };
@@ -38,7 +46,7 @@ function LoginRegister() {
   return (
     <div className="h-dvh w-full bg-[#0A0A0A]">
       <div className="flex h-full items-center justify-center p-4">
-        <div className="-mt-20 flex h-fit max-h-180 min-h-120 w-full max-w-130 flex-col justify-center rounded-md border-2 border-[#232323] bg-[#111111] p-6 shadow-md">
+        <div className="-mt-20 flex h-fit max-h-180 min-h-120 w-full max-w-130 flex-col justify-center rounded-md border-2 border-[#232323] bg-[#0F1112] p-6 shadow-md">
           {loading ? (
             <div className="flex items-center justify-center">
               <LoaderCircle
@@ -51,7 +59,12 @@ function LoginRegister() {
             <>
               <h2 className="text-3xl font-bold text-slate-300">
                 Welcome to{" "}
-                <span className="text-[#CC1A21]">MyThinkTank.AI</span>
+                <span
+                  className="text-[#CC1A21]"
+                  style={{ fontFamily: "futura" }}
+                >
+                  MyThinkTank.AI
+                </span>
               </h2>
               <p className="text-md mt-4 text-slate-300">
                 {isLogin ? "Sign in to your account" : "Create an account"}
@@ -69,7 +82,7 @@ function LoginRegister() {
                   id="email"
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  className="block w-full rounded-lg border border-slate-300 bg-[#111111] p-3.5 text-sm text-slate-300 focus:border-2 focus:border-blue-400 focus:ring-blue-400 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                  className="block w-full rounded-lg border border-slate-300 bg-[#0F1112] p-3.5 text-sm text-slate-300 focus:border-2 focus:border-blue-400 focus:ring-blue-400 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                   required
                 />
               </div>
@@ -88,7 +101,7 @@ function LoginRegister() {
                     onChange={(e) =>
                       setForm({ ...form, password: e.target.value })
                     }
-                    className="block w-full rounded-lg border border-slate-300 bg-[#111111] p-3.5 text-sm text-slate-300 focus:border-2 focus:border-blue-400 focus:ring-blue-400 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                    className="block w-full rounded-lg border border-slate-300 bg-[#0F1112] p-3.5 text-sm text-slate-300 focus:border-2 focus:border-blue-400 focus:ring-blue-400 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                     aria-label="Password"
                     required
                   />
