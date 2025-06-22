@@ -1,34 +1,68 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useState,
+  useEffect,
+} from "react";
 
 import LoginRegister from "@/components/LoginRegister";
+import useAxios from "@/hooks/useAxios";
 
-interface User {
+interface Auth {
   id: string;
   email: string;
+  accessToken: string;
 }
 
 interface AuthContextType {
-  user: User | null;
+  auth: Auth | null;
   logout: () => void;
-  setUser: (data: any) => void;
+  setAuth: (data: any) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [auth, setAuth] = useState<Auth | null>(null);
+  const axios = useAxios();
 
-  const logout = () => {};
+  useEffect(() => {
+    const refreshToken = async () => {
+      const response = await axios.get("/auth/refresh");
+
+      console.log(response);
+
+      if (response.data.accessToken) {
+        setAuth(response.data);
+      }
+
+      setIsLoading(false);
+    };
+
+    if (!auth) {
+      refreshToken();
+    } else {
+      setIsLoading(false);
+    }
+  }, []);
+
+  const logout = () => setAuth(null);
 
   const value = {
-    user,
-    setUser,
+    auth,
+    setAuth,
     logout,
   };
 
+  if (isLoading) {
+    return <div>LOADING....</div>;
+  }
+
   return (
     <AuthContext.Provider value={value}>
-      {!user ? <LoginRegister /> : children}
+      {!auth ? <LoginRegister /> : children}
     </AuthContext.Provider>
   );
 }

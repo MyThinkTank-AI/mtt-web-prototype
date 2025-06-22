@@ -3,9 +3,11 @@ import { Eye, EyeOff, LoaderCircle } from "lucide-react";
 import { toast } from "sonner";
 
 import { useAuthContext } from "@/providers/Auth";
+import useAxios from "@/hooks/useAxios";
 
 function LoginRegister() {
-  const { setUser } = useAuthContext();
+  const { setAuth } = useAuthContext();
+  const axios = useAxios();
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState<{ email: string; password: string }>({
     email: "",
@@ -19,20 +21,12 @@ function LoginRegister() {
 
   const handleSubmit = async () => {
     setFetching(true);
-    // Simulate an API call
+    const results = await axios.post(`/auth/email/${type}`, form);
 
-    const results = await fetch(`/api/auth/email/${type}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(form),
-    });
-
-    const data = await results.json();
+    const data = results.data;
 
     if (!data.error) {
-      setUser(data);
+      setAuth(data);
     } else {
       toast.error(data.message, {
         richColors: true,
