@@ -60,9 +60,6 @@ const StreamSession = ({
     apiUrl,
     assistantId,
     threadId: threadId ?? null,
-    defaultHeaders: {
-      Authentication: `Bearer 1234`,
-    },
     onCustomEvent: (event, options) => {
       if (isUIMessage(event) || isRemoveUIMessage(event)) {
         options.mutate((prev) => {
