@@ -5,6 +5,7 @@ import {
   useState,
   useEffect,
 } from "react";
+import { LoaderCircle } from "lucide-react";
 
 import LoginRegister from "@/components/LoginRegister";
 import useAxios from "@/hooks/useAxios";
@@ -57,7 +58,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   if (isLoading) {
-    return <div>LOADING....</div>;
+    return <div className="h-dvh bg-[#0A0A0A] flex justify-center items-center"><LoaderCircle
+                className="animate-spin text-[#CC1A21]"
+                width={60}
+                height={60}
+              /></div>;
   }
 
   return (
