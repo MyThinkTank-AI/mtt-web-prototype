@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     return new Response(
       JSON.stringify({
-        error: "Unexpected error",
+        error,
         message: "Unexpected error. Please try again.",
       }),
       {
