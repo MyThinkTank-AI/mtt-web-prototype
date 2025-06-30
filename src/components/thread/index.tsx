@@ -17,8 +17,6 @@ import { TooltipIconButton } from "./tooltip-icon-button";
 import {
   ArrowDown,
   LoaderCircle,
-  PanelRightOpen,
-  PanelRightClose,
   SquarePen,
   XIcon,
   Plus,
@@ -275,7 +273,7 @@ export function Thread() {
         >
           {!chatStarted && (
             <div className="absolute top-0 left-0 z-10 flex w-full items-center justify-start gap-3 p-2 pl-4">
-              <div>
+              {/* <div>
                 {(!chatHistoryOpen || !isLargeScreen) && (
                   <Button
                     className="hover:bg-slate-900"
@@ -289,7 +287,7 @@ export function Thread() {
                     )}
                   </Button>
                 )}
-              </div>
+              </div> */}
               <MyThinkTankLogoSVG
                 height={30}
                 width={185}
@@ -299,7 +297,7 @@ export function Thread() {
           {chatStarted && (
             <div className="relative z-10 flex items-center justify-between gap-3 p-2">
               <div className="relative flex items-center justify-start gap-2">
-                <div className="absolute left-0 z-10">
+                {/* <div className="absolute left-0 z-10">
                   {(!chatHistoryOpen || !isLargeScreen) && (
                     <Button
                       className="hover:bg-slate-900"
@@ -313,7 +311,7 @@ export function Thread() {
                       )}
                     </Button>
                   )}
-                </div>
+                </div> */}
                 <MyThinkTankLogoSVG
                   height={30}
                   width={185}
@@ -340,12 +338,12 @@ export function Thread() {
               <div className="flex items-center gap-4">
                 <TooltipIconButton
                   size="lg"
-                  className="p-4"
+                  className="p-4 hover:bg-slate-900"
                   tooltip="New thread"
                   variant="ghost"
                   onClick={() => setThreadId(null)}
                 >
-                  <SquarePen className="size-5" />
+                  <SquarePen className="size-5 text-slate-300" />
                 </TooltipIconButton>
               </div>
 

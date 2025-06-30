@@ -10,6 +10,7 @@ import {
 } from "@langchain/langgraph-sdk/react-ui";
 import { useQueryState } from "nuqs";
 import { toast } from "sonner";
+import axios from "axios";
 
 import { useThreads } from "./Thread";
 
@@ -36,9 +37,9 @@ async function sleep(ms = 4000) {
 
 async function checkGraphStatus(apiUrl: string): Promise<boolean> {
   try {
-    const res = await fetch(`${apiUrl}/info`);
+    const res = await axios.get(`${apiUrl}/info`);
 
-    return res.ok;
+    return res.status === 200 && res.statusText === "OK";
   } catch (e) {
     console.error(e);
     return false;
@@ -76,8 +77,6 @@ const StreamSession = ({
     },
   });
 
-  console.log(streamValue);
-
   useEffect(() => {
     checkGraphStatus(apiUrl).then((ok) => {
       if (!ok) {
@@ -109,8 +108,6 @@ export const StreamProvider: React.FC<{ children: ReactNode }> = ({
   // Get environment variables
   const apiUrl: string = process.env.NEXT_PUBLIC_API_URL!;
   const assistantId: string = process.env.NEXT_PUBLIC_ASSISTANT_ID!;
-
-  console.log(process.env.NEXT_PUBLIC_API_URL);
 
   return (
     <StreamSession

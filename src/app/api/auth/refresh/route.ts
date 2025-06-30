@@ -4,7 +4,6 @@ import { cookies } from "next/headers";
 
 export async function GET(req: NextRequest) {
   const cookieStore = await cookies();
-  console.log("REFRESH", cookieStore.get("refresh_token"));
 
   try {
     const response = await axios.get(
@@ -16,8 +15,6 @@ export async function GET(req: NextRequest) {
       },
     );
 
-    // console.log("REFRESH: ", response);
-
     const data = await response.data;
 
     return new Response(JSON.stringify(data), {
@@ -25,7 +22,6 @@ export async function GET(req: NextRequest) {
       headers: { "Content-Type": "application/json" },
     });
   } catch (error) {
-    console.log(error);
     return new Response(
       JSON.stringify({
         error: "Unexpected error",
