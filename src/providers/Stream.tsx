@@ -76,6 +76,8 @@ const StreamSession = ({
     },
   });
 
+  console.log(streamValue);
+
   useEffect(() => {
     checkGraphStatus(apiUrl).then((ok) => {
       if (!ok) {
@@ -107,6 +109,8 @@ export const StreamProvider: React.FC<{ children: ReactNode }> = ({
   // Get environment variables
   const apiUrl: string = process.env.NEXT_PUBLIC_API_URL!;
   const assistantId: string = process.env.NEXT_PUBLIC_ASSISTANT_ID!;
+
+  console.log(process.env.NEXT_PUBLIC_API_URL);
 
   return (
     <StreamSession

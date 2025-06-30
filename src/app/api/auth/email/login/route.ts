@@ -1,21 +1,31 @@
 import { NextRequest } from "next/server";
+import { cookies } from "next/headers";
+import axios from "axios";
+
+import { getRefreshToken } from "@/lib/parseCookies";
 
 export async function POST(req: NextRequest) {
+  const cookieStore = await cookies();
   const body = await req.json();
 
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/auth/email/login`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-      },
+    const response = await axios.post(
+      `${process.env.AUTH_API_URL}/auth/email/login`,
+      body,
+      { withCredentials: true },
     );
 
-    const data = await response.json();
+    const { value, maxAge, expires, httpOnly } = getRefreshToken(
+      response.headers["set-cookie"]!,
+    );
+
+    cookieStore.set("refresh_token", value, {
+      maxAge,
+      expires,
+      httpOnly,
+    });
+
+    const data = await response.data;
 
     return new Response(JSON.stringify(data), {
       status: 200,

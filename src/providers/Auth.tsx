@@ -33,8 +33,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const refreshToken = async () => {
       const response = await axios.get("/auth/refresh");
 
-      console.log(response);
-
       if (response.data.accessToken) {
         setAuth(response.data);
       }
@@ -58,11 +56,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   if (isLoading) {
-    return <div className="h-dvh bg-[#0A0A0A] flex justify-center items-center"><LoaderCircle
-                className="animate-spin text-[#CC1A21]"
-                width={60}
-                height={60}
-              /></div>;
+    return (
+      <div className="flex h-dvh items-center justify-center bg-[#0A0A0A]">
+        <LoaderCircle
+          className="animate-spin text-[#CC1A21]"
+          width={60}
+          height={60}
+        />
+      </div>
+    );
   }
 
   return (
