@@ -138,6 +138,13 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
   }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0px 1000px #111111 inset !important;
+    -webkit-text-fill-color: #ffffff;
+  }
 }
 
 @layer utilities {
@@ -148,4 +155,9 @@
   .shadow-inner-left {
     box-shadow: inset 9px 0 6px -1px rgb(0 0 0 / 0.02);
   }
+}
+
+@font-face {
+  font-family: "futura";
+  src: url("../../public/fonts/futura\ light\ bt.ttf");
 }

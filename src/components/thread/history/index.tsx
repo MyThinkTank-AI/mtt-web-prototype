@@ -96,17 +96,17 @@ export default function ThreadHistory() {
 
   return (
     <>
-      <div className="shadow-inner-right hidden h-screen w-[300px] shrink-0 flex-col items-start justify-start gap-6 border-r-[1px] border-slate-300 lg:flex">
+      <div className="shadow-inner-right hidden h-screen w-[300px] shrink-0 flex-col items-start justify-start gap-6 bg-[#0F1112] text-slate-300 lg:flex">
         <div className="flex w-full items-center justify-between px-4 pt-1.5">
           <Button
-            className="hover:bg-gray-100"
+            className="hover:bg-slate-900"
             variant="ghost"
             onClick={() => setChatHistoryOpen((p) => !p)}
           >
             {chatHistoryOpen ? (
-              <PanelRightOpen className="size-5" />
+              <PanelRightOpen className="size-5 text-slate-300" />
             ) : (
-              <PanelRightClose className="size-5" />
+              <PanelRightClose className="size-5 text-slate-300" />
             )}
           </Button>
           <h1 className="text-xl font-semibold tracking-tight">
@@ -129,10 +129,10 @@ export default function ThreadHistory() {
         >
           <SheetContent
             side="left"
-            className="flex lg:hidden"
+            className="flex bg-[#0F1112] text-slate-300 lg:hidden"
           >
             <SheetHeader>
-              <SheetTitle>Thread History</SheetTitle>
+              <SheetTitle className="text-slate-300">Thread History</SheetTitle>
             </SheetHeader>
             <ThreadList
               threads={threads}

@@ -17,12 +17,9 @@ import { TooltipIconButton } from "./tooltip-icon-button";
 import {
   ArrowDown,
   LoaderCircle,
-  PanelRightOpen,
-  PanelRightClose,
   SquarePen,
   XIcon,
   Plus,
-  CircleX,
 } from "lucide-react";
 import { useQueryState, parseAsBoolean } from "nuqs";
 import { StickToBottom, useStickToBottomContext } from "use-stick-to-bottom";
@@ -31,13 +28,6 @@ import { toast } from "sonner";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { Label } from "../ui/label";
 import { Switch } from "../ui/switch";
-import { GitHubSVG } from "../icons/github";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "../ui/tooltip";
 import { useFileUpload } from "@/hooks/use-file-upload";
 import { ContentBlocksPreview } from "./ContentBlocksPreview";
 import {
@@ -85,30 +75,6 @@ function ScrollToBottom(props: { className?: string }) {
       <ArrowDown className="h-4 w-4" />
       <span>Scroll to bottom</span>
     </Button>
-  );
-}
-
-function OpenGitHubRepo() {
-  return (
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <a
-            href="https://github.com/langchain-ai/agent-chat-ui"
-            target="_blank"
-            className="flex items-center justify-center"
-          >
-            <GitHubSVG
-              width="24"
-              height="24"
-            />
-          </a>
-        </TooltipTrigger>
-        <TooltipContent side="left">
-          <p>Open GitHub repo</p>
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
   );
 }
 
@@ -253,10 +219,10 @@ export function Thread() {
   );
 
   return (
-    <div className="flex h-screen w-full overflow-hidden">
+    <div className="flex h-screen w-full overflow-hidden bg-[#0A0A0A]">
       <div className="relative hidden lg:flex">
         <motion.div
-          className="absolute z-20 h-full overflow-hidden border-r bg-white"
+          className="absolute z-20 h-full overflow-hidden"
           style={{ width: 300 }}
           animate={
             isLargeScreen
@@ -306,50 +272,56 @@ export function Thread() {
           }
         >
           {!chatStarted && (
-            <div className="absolute top-0 left-0 z-10 flex w-full items-center justify-between gap-3 p-2 pl-4">
-              <div>
+            <div className="absolute top-0 left-0 z-10 flex w-full items-center justify-start gap-3 p-2 pl-4">
+              {/* <div>
                 {(!chatHistoryOpen || !isLargeScreen) && (
                   <Button
-                    className="hover:bg-gray-100"
+                    className="hover:bg-slate-900"
                     variant="ghost"
                     onClick={() => setChatHistoryOpen((p) => !p)}
                   >
                     {chatHistoryOpen ? (
-                      <PanelRightOpen className="size-5" />
+                      <PanelRightOpen className="size-5 text-slate-300" />
                     ) : (
-                      <PanelRightClose className="size-5" />
+                      <PanelRightClose className="size-5 text-slate-300" />
                     )}
                   </Button>
                 )}
-              </div>
-              <div className="absolute top-2 right-4 flex items-center">
-                <OpenGitHubRepo />
-              </div>
+              </div> */}
+              <MyThinkTankLogoSVG
+                height={30}
+                width={185}
+              />
             </div>
           )}
           {chatStarted && (
             <div className="relative z-10 flex items-center justify-between gap-3 p-2">
               <div className="relative flex items-center justify-start gap-2">
-                <div className="absolute left-0 z-10">
+                {/* <div className="absolute left-0 z-10">
                   {(!chatHistoryOpen || !isLargeScreen) && (
                     <Button
-                      className="hover:bg-gray-100"
+                      className="hover:bg-slate-900"
                       variant="ghost"
                       onClick={() => setChatHistoryOpen((p) => !p)}
                     >
                       {chatHistoryOpen ? (
-                        <PanelRightOpen className="size-5" />
+                        <PanelRightOpen className="size-5 text-slate-300" />
                       ) : (
-                        <PanelRightClose className="size-5" />
+                        <PanelRightClose className="size-5 text-slate-300" />
                       )}
                     </Button>
                   )}
-                </div>
+                </div> */}
+                <MyThinkTankLogoSVG
+                  height={30}
+                  width={185}
+                  className="ml-12"
+                />
                 <motion.button
                   className="flex cursor-pointer items-center gap-2"
                   onClick={() => setThreadId(null)}
                   animate={{
-                    marginLeft: !chatHistoryOpen ? 48 : 0,
+                    marginLeft: !chatHistoryOpen ? 24 : 0,
                   }}
                   transition={{
                     type: "spring",
@@ -357,32 +329,25 @@ export function Thread() {
                     damping: 30,
                   }}
                 >
-                  <MyThinkTankLogoSVG
-                    width={32}
-                    height={32}
-                  />
-                  <span className="text-xl font-semibold tracking-tight">
+                  <span className="text-xl tracking-tight text-white">
                     Founding Fathers Chat
                   </span>
                 </motion.button>
               </div>
 
               <div className="flex items-center gap-4">
-                <div className="flex items-center">
-                  <OpenGitHubRepo />
-                </div>
                 <TooltipIconButton
                   size="lg"
-                  className="p-4"
+                  className="p-4 hover:bg-slate-900"
                   tooltip="New thread"
                   variant="ghost"
                   onClick={() => setThreadId(null)}
                 >
-                  <SquarePen className="size-5" />
+                  <SquarePen className="size-5 text-slate-300" />
                 </TooltipIconButton>
               </div>
 
-              <div className="from-background to-background/0 absolute inset-x-0 top-full h-5 bg-gradient-to-b" />
+              <div className="absolute inset-x-0 top-full h-5" />
             </div>
           )}
 
@@ -430,14 +395,11 @@ export function Thread() {
                 </>
               }
               footer={
-                <div className="sticky bottom-0 flex flex-col items-center gap-8 bg-white">
+                <div className="sticky bottom-0 flex flex-col items-center gap-8">
                   {!chatStarted && (
-                    <div className="flex items-center gap-3">
-                      <MyThinkTankLogoSVG className="h-8 flex-shrink-0" />
-                      <h1 className="text-2xl font-semibold tracking-tight">
-                        Founding Fathers Chat
-                      </h1>
-                    </div>
+                    <h1 className="text-2xl font-semibold tracking-tight text-slate-300">
+                      Founding Fathers Chat
+                    </h1>
                   )}
 
                   <ScrollToBottom className="animate-in fade-in-0 zoom-in-95 absolute bottom-full left-1/2 mb-4 -translate-x-1/2" />
@@ -445,7 +407,7 @@ export function Thread() {
                   <div
                     ref={dropRef}
                     className={cn(
-                      "bg-muted relative z-10 mx-auto mb-8 w-full max-w-3xl rounded-2xl shadow-xs transition-all",
+                      "relative z-10 mx-auto mb-8 w-full max-w-3xl rounded-2xl bg-[#0F1112] shadow-xs transition-all",
                       dragOver
                         ? "border-primary border-2 border-dotted"
                         : "border border-solid",
@@ -477,47 +439,50 @@ export function Thread() {
                           }
                         }}
                         placeholder="Type your message..."
-                        className="field-sizing-content resize-none border-none bg-transparent p-3.5 pb-0 shadow-none ring-0 outline-none focus:ring-0 focus:outline-none"
+                        className="field-sizing-content resize-none border-none bg-[#111111] bg-transparent p-3.5 pb-0 text-slate-300 shadow-none ring-0 outline-none focus:ring-0 focus:outline-none"
                       />
 
-                      <div className="flex items-center gap-6 p-2 pt-4">
-                        <div>
-                          <div className="flex items-center space-x-2">
-                            <Switch
-                              id="render-tool-calls"
-                              checked={hideToolCalls ?? false}
-                              onCheckedChange={setHideToolCalls}
-                            />
-                            <Label
-                              htmlFor="render-tool-calls"
-                              className="text-sm text-gray-600"
-                            >
-                              Hide Tool Calls
-                            </Label>
+                      <div className="flex flex-wrap-reverse items-center gap-6 p-2 pt-4 sm:flex-wrap">
+                        <div className="flex w-full justify-between gap-6 sm:w-auto sm:justify-start">
+                          <div>
+                            <div className="flex items-center space-x-2">
+                              <Switch
+                                id="render-tool-calls"
+                                checked={hideToolCalls ?? false}
+                                onCheckedChange={setHideToolCalls}
+                              />
+                              <Label
+                                htmlFor="render-tool-calls"
+                                className="text-sm text-gray-600"
+                              >
+                                Hide Tool Calls
+                              </Label>
+                            </div>
                           </div>
+                          <Label
+                            htmlFor="file-input"
+                            className="flex cursor-pointer items-center gap-2"
+                          >
+                            <Plus className="size-5 text-gray-600" />
+                            <span className="text-sm text-gray-600">
+                              Upload PDF or Image
+                            </span>
+                          </Label>
+                          <input
+                            id="file-input"
+                            type="file"
+                            onChange={handleFileUpload}
+                            multiple
+                            accept="image/jpeg,image/png,image/gif,image/webp,application/pdf"
+                            className="hidden"
+                          />
                         </div>
-                        <Label
-                          htmlFor="file-input"
-                          className="flex cursor-pointer items-center gap-2"
-                        >
-                          <Plus className="size-5 text-gray-600" />
-                          <span className="text-sm text-gray-600">
-                            Upload PDF or Image
-                          </span>
-                        </Label>
-                        <input
-                          id="file-input"
-                          type="file"
-                          onChange={handleFileUpload}
-                          multiple
-                          accept="image/jpeg,image/png,image/gif,image/webp,application/pdf"
-                          className="hidden"
-                        />
+
                         {stream.isLoading ? (
                           <Button
                             key="stop"
                             onClick={() => stream.stop()}
-                            className="ml-auto"
+                            className="ml-auto bg-[#CC1A21]"
                           >
                             <LoaderCircle className="h-4 w-4 animate-spin" />
                             Cancel
@@ -525,7 +490,7 @@ export function Thread() {
                         ) : (
                           <Button
                             type="submit"
-                            className="ml-auto shadow-md transition-all"
+                            className="ml-auto w-full bg-[#CC1A21] shadow-md transition-all sm:w-auto"
                             disabled={
                               isLoading ||
                               (!input.trim() && contentBlocks.length === 0)
