@@ -8,12 +8,17 @@ export async function POST(req: NextRequest) {
   const cookieStore = await cookies();
   const body = await req.json();
 
+
   try {
+    console.log("Request:", body, `${process.env.AUTH_API_URL}/auth/email/login`);
+
     const response = await axios.post(
       `${process.env.AUTH_API_URL}/auth/email/login`,
       body,
       { withCredentials: true },
     );
+
+    console.log("Response:", response);
 
     const { value, maxAge, expires, httpOnly } = getRefreshToken(
       response.headers["set-cookie"]!,
