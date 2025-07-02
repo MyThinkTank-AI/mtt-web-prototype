@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { cookies } from "next/headers";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 import { getRefreshToken } from "@/lib/parseCookies";
 
@@ -10,15 +10,12 @@ export async function POST(req: NextRequest) {
 
 
   try {
-    console.log("Request:", body, `${process.env.AUTH_API_URL}/auth/email/login`);
 
     const response = await axios.post(
       `${process.env.AUTH_API_URL}/auth/email/login`,
       body,
       { withCredentials: true },
     );
-
-    console.log("Response:", response);
 
     const { value, maxAge, expires, httpOnly } = getRefreshToken(
       response.headers["set-cookie"]!,
@@ -36,15 +33,14 @@ export async function POST(req: NextRequest) {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
-  } catch (error) {
+  } catch (error: AxiosError | any) {
     return new Response(
       JSON.stringify({
         error,
-        message: "Unexpected error. Please try again.",
+        message: error?.response?.data.message || "Unexpected error. Please try again.",
       }),
       {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
+        status: error?.response?.data.statusCode || 500,
       },
     );
   }

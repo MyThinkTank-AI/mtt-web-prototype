@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { cookies } from "next/headers";
 
 export async function GET(req: NextRequest) {
@@ -21,16 +21,15 @@ export async function GET(req: NextRequest) {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
-  } catch (error) {
-    return new Response(
-      JSON.stringify({
-        error,
-        message: "Unexpected error. Please try again.",
-      }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      },
-    );
-  }
+  } catch (error: AxiosError | any) {
+      return new Response(
+        JSON.stringify({
+          error,
+          message: error?.response?.data.message || "Unexpected error. Please try again.",
+        }),
+        {
+          status: error?.response?.data.statusCode || 500,
+        },
+      );
+    }
 }
