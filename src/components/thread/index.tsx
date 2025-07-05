@@ -281,25 +281,19 @@ export function Thread() {
         >
           {!chatStarted && (
             <div className="absolute top-0 left-0 z-10 flex w-full items-center justify-between gap-3 p-2 pl-4">
-              <div>
-                {(!chatHistoryOpen || !isLargeScreen) && (
-                  <Button
-                    className="hover:bg-slate-900"
-                    variant="ghost"
-                    onClick={() => setChatHistoryOpen((p) => !p)}
-                  >
-                    {chatHistoryOpen ? (
-                      <PanelRightOpen className="size-5 text-slate-300" />
-                    ) : (
-                      <PanelRightClose className="size-5 text-slate-300" />
-                    )}
-                  </Button>
-                )}
-              </div>
-              <MyThinkTankLogoSVG
-                height={30}
-                width={185}
-              />
+              {(!chatHistoryOpen || !isLargeScreen) && (
+                <Button
+                  className="hover:bg-slate-900"
+                  variant="ghost"
+                  onClick={() => setChatHistoryOpen((p) => !p)}
+                >
+                  {chatHistoryOpen ? (
+                    <PanelRightOpen className="size-5 text-slate-300" />
+                  ) : (
+                    <PanelRightClose className="size-5 text-slate-300" />
+                  )}
+                </Button>
+              )}
               <button
                 type="button"
                 data-toggle-password='{"target": "#password"}'
@@ -335,8 +329,8 @@ export function Thread() {
                 </div>
                 <div>
                   <MyThinkTankLogoSVG
-                    height={30}
-                    width={185}
+                    height={25}
+                    width={165}
                     className="ml-12"
                   />
                 </div>
@@ -415,7 +409,12 @@ export function Thread() {
               footer={
                 <div className="sticky bottom-0 flex flex-col items-center gap-8">
                   <ScrollToBottom className="animate-in fade-in-0 zoom-in-95 absolute bottom-full left-1/2 mb-4 -translate-x-1/2" />
-
+                  {!chatStarted && (
+                    <MyThinkTankLogoSVG
+                      height={30}
+                      width={185}
+                    />
+                  )}
                   <div
                     ref={dropRef}
                     className={cn(
