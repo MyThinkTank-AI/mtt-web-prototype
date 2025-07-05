@@ -14,13 +14,7 @@ import {
 } from "@/lib/ensure-tool-responses";
 import { MyThinkTankLogoSVG } from "../icons/langgraph";
 import { TooltipIconButton } from "./tooltip-icon-button";
-import {
-  ArrowDown,
-  LoaderCircle,
-  SquarePen,
-  XIcon,
-  Plus,
-} from "lucide-react";
+import { ArrowDown, LoaderCircle, SquarePen, XIcon, Plus } from "lucide-react";
 import { useQueryState, parseAsBoolean } from "nuqs";
 import { StickToBottom, useStickToBottomContext } from "use-stick-to-bottom";
 import ThreadHistory from "./history";
@@ -36,6 +30,9 @@ import {
   ArtifactTitle,
   useArtifactContext,
 } from "./artifact";
+import { useAuthContext } from "@/providers/Auth";
+import useAxios from "@/hooks/useAxios";
+import { PanelRightOpen, PanelRightClose } from "lucide-react";
 
 function StickyToBottomContent(props: {
   content: ReactNode;
@@ -44,6 +41,7 @@ function StickyToBottomContent(props: {
   contentClassName?: string;
 }) {
   const context = useStickToBottomContext();
+
   return (
     <div
       ref={context.scrollRef}
@@ -79,6 +77,8 @@ function ScrollToBottom(props: { className?: string }) {
 }
 
 export function Thread() {
+  const axios = useAxios();
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [artifactContext, setArtifactContext] = useArtifactContext();
   const [artifactOpen, closeArtifact] = useArtifactOpen();
 
@@ -104,6 +104,7 @@ export function Thread() {
   } = useFileUpload();
   const [firstTokenReceived, setFirstTokenReceived] = useState(false);
   const isLargeScreen = useMediaQuery("(min-width: 1024px)");
+  const { logout } = useAuthContext();
 
   const stream = useStreamContext();
   const messages = stream.messages;
@@ -213,6 +214,13 @@ export function Thread() {
     });
   };
 
+  const handleLogout = async () => {
+    setIsLoggingOut(true);
+    await axios.post("/auth/logout");
+    logout();
+    setIsLoggingOut(false);
+  };
+
   const chatStarted = !!threadId || !!messages.length;
   const hasNoAIOrToolMessages = !messages.find(
     (m) => m.type === "ai" || m.type === "tool",
@@ -272,8 +280,8 @@ export function Thread() {
           }
         >
           {!chatStarted && (
-            <div className="absolute top-0 left-0 z-10 flex w-full items-center justify-start gap-3 p-2 pl-4">
-              {/* <div>
+            <div className="absolute top-0 left-0 z-10 flex w-full items-center justify-between gap-3 p-2 pl-4">
+              <div>
                 {(!chatHistoryOpen || !isLargeScreen) && (
                   <Button
                     className="hover:bg-slate-900"
@@ -287,17 +295,30 @@ export function Thread() {
                     )}
                   </Button>
                 )}
-              </div> */}
+              </div>
               <MyThinkTankLogoSVG
                 height={30}
                 width={185}
               />
+              <button
+                type="button"
+                data-toggle-password='{"target": "#password"}'
+                className="inset-y-0 end-0 z-20 flex cursor-pointer items-center rounded-md bg-transparent px-3 py-2 text-[#CC1A21] hover:bg-[rgba(204,26,33,0.15)] hover:text-[#CC1A21] hover:outline-hidden dark:text-neutral-600 dark:focus:text-blue-500"
+                aria-controls="password"
+                onClick={handleLogout}
+                disabled={isLoggingOut}
+              >
+                {isLoggingOut && (
+                  <LoaderCircle className="mr-2 animate-spin text-[#CC1A21]" />
+                )}
+                Logout
+              </button>
             </div>
           )}
           {chatStarted && (
             <div className="relative z-10 flex items-center justify-between gap-3 p-2">
-              <div className="relative flex items-center justify-start gap-2">
-                {/* <div className="absolute left-0 z-10">
+              <div className="relative flex items-center justify-between gap-2">
+                <div className="absolute left-0 z-10">
                   {(!chatHistoryOpen || !isLargeScreen) && (
                     <Button
                       className="hover:bg-slate-900"
@@ -311,28 +332,14 @@ export function Thread() {
                       )}
                     </Button>
                   )}
-                </div> */}
-                <MyThinkTankLogoSVG
-                  height={30}
-                  width={185}
-                  className="ml-12"
-                />
-                <motion.button
-                  className="flex cursor-pointer items-center gap-2"
-                  onClick={() => setThreadId(null)}
-                  animate={{
-                    marginLeft: !chatHistoryOpen ? 24 : 0,
-                  }}
-                  transition={{
-                    type: "spring",
-                    stiffness: 300,
-                    damping: 30,
-                  }}
-                >
-                  <span className="text-xl tracking-tight text-white">
-                    Founding Fathers Chat
-                  </span>
-                </motion.button>
+                </div>
+                <div>
+                  <MyThinkTankLogoSVG
+                    height={30}
+                    width={185}
+                    className="ml-12"
+                  />
+                </div>
               </div>
 
               <div className="flex items-center gap-4">
@@ -345,6 +352,17 @@ export function Thread() {
                 >
                   <SquarePen className="size-5 text-slate-300" />
                 </TooltipIconButton>
+                <button
+                  type="button"
+                  className="inset-y-0 end-0 z-20 flex cursor-pointer items-center rounded-md bg-transparent px-3 py-2 text-[#CC1A21] hover:bg-[rgba(204,26,33,0.15)] hover:text-[#CC1A21] hover:outline-hidden dark:text-neutral-600 dark:focus:text-blue-500"
+                  onClick={handleLogout}
+                  disabled={isLoggingOut}
+                >
+                  {isLoggingOut && (
+                    <LoaderCircle className="mr-2 animate-spin text-[#CC1A21]" />
+                  )}
+                  Logout
+                </button>
               </div>
 
               <div className="absolute inset-x-0 top-full h-5" />
@@ -396,12 +414,6 @@ export function Thread() {
               }
               footer={
                 <div className="sticky bottom-0 flex flex-col items-center gap-8">
-                  {!chatStarted && (
-                    <h1 className="text-2xl font-semibold tracking-tight text-slate-300">
-                      Founding Fathers Chat
-                    </h1>
-                  )}
-
                   <ScrollToBottom className="animate-in fade-in-0 zoom-in-95 absolute bottom-full left-1/2 mb-4 -translate-x-1/2" />
 
                   <div
