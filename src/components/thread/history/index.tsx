@@ -85,7 +85,7 @@ export default function ThreadHistory() {
   const { getThreads, threads, setThreads, threadsLoading, setThreadsLoading } =
     useThreads();
 
-  console.log("ThreadHistory rendered", threads);
+  console.log("ThreadHistory", threads, threadsLoading);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
