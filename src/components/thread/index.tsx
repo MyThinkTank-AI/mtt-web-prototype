@@ -14,7 +14,14 @@ import {
 } from "@/lib/ensure-tool-responses";
 import { MyThinkTankLogoSVG } from "../icons/langgraph";
 import { TooltipIconButton } from "./tooltip-icon-button";
-import { ArrowDown, LoaderCircle, SquarePen, XIcon, Plus } from "lucide-react";
+import {
+  ArrowDown,
+  LoaderCircle,
+  SquarePen,
+  XIcon,
+  Plus,
+  LogOut,
+} from "lucide-react";
 import { useQueryState, parseAsBoolean } from "nuqs";
 import { StickToBottom, useStickToBottomContext } from "use-stick-to-bottom";
 import ThreadHistory from "./history";
@@ -294,19 +301,19 @@ export function Thread() {
                   )}
                 </Button>
               )}
-              <button
-                type="button"
-                data-toggle-password='{"target": "#password"}'
-                className="inset-y-0 end-0 z-20 flex cursor-pointer items-center rounded-md bg-transparent px-3 py-2 text-[#CC1A21] hover:bg-[rgba(204,26,33,0.15)] hover:text-[#CC1A21] hover:outline-hidden dark:text-neutral-600 dark:focus:text-blue-500"
-                aria-controls="password"
+              <TooltipIconButton
+                size="lg"
+                className="p-4 hover:bg-slate-900"
+                tooltip="Logout"
+                variant="ghost"
                 onClick={handleLogout}
-                disabled={isLoggingOut}
               >
-                {isLoggingOut && (
-                  <LoaderCircle className="mr-2 animate-spin text-[#CC1A21]" />
+                {isLoggingOut ? (
+                  <LoaderCircle className="size-5 animate-spin text-[#CC1A21]" />
+                ) : (
+                  <LogOut className="size-5 text-slate-300" />
                 )}
-                Logout
-              </button>
+              </TooltipIconButton>
             </div>
           )}
           {chatStarted && (
@@ -336,7 +343,7 @@ export function Thread() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
                 <TooltipIconButton
                   size="lg"
                   className="p-4 hover:bg-slate-900"
@@ -346,17 +353,19 @@ export function Thread() {
                 >
                   <SquarePen className="size-5 text-slate-300" />
                 </TooltipIconButton>
-                <button
-                  type="button"
-                  className="inset-y-0 end-0 z-20 flex cursor-pointer items-center rounded-md bg-transparent px-3 py-2 text-[#CC1A21] hover:bg-[rgba(204,26,33,0.15)] hover:text-[#CC1A21] hover:outline-hidden dark:text-neutral-600 dark:focus:text-blue-500"
+                <TooltipIconButton
+                  size="lg"
+                  className="p-4 hover:bg-slate-900"
+                  tooltip="Logout"
+                  variant="ghost"
                   onClick={handleLogout}
-                  disabled={isLoggingOut}
                 >
-                  {isLoggingOut && (
-                    <LoaderCircle className="mr-2 animate-spin text-[#CC1A21]" />
+                  {isLoggingOut ? (
+                    <LoaderCircle className="size-5 animate-spin text-slate-300" />
+                  ) : (
+                    <LogOut className="size-5 text-slate-300" />
                   )}
-                  Logout
-                </button>
+                </TooltipIconButton>
               </div>
 
               <div className="absolute inset-x-0 top-full h-5" />
