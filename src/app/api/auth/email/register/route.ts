@@ -31,14 +31,16 @@ export async function POST(req: NextRequest) {
       headers: { "Content-Type": "application/json" },
     });
   } catch (error: AxiosError | any) {
-      return new Response(
-        JSON.stringify({
-          error,
-          message: error?.response?.data.message || "Unexpected error. Please try again.",
-        }),
-        {
-          status: error?.response?.data.statusCode || 500,
-        },
-      );
-    }
+    return new Response(
+      JSON.stringify({
+        error,
+        message:
+          error?.response?.data.message ||
+          "Unexpected error. Please try again.",
+      }),
+      {
+        status: error?.response?.data.statusCode || 500,
+      },
+    );
+  }
 }
