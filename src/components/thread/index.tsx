@@ -287,7 +287,9 @@ export function Thread() {
           }
         >
           {!chatStarted && (
-            <div className="absolute top-0 left-0 z-10 flex w-full items-center justify-between gap-3 p-2 pl-4">
+            <div
+              className={`absolute top-0 left-0 z-10 flex w-full items-center justify-${chatHistoryOpen ? "end" : "between"} gap-3 p-2 pl-4`}
+            >
               {(!chatHistoryOpen || !isLargeScreen) && (
                 <Button
                   className="hover:bg-slate-900"
