@@ -479,7 +479,7 @@ export function Thread() {
                               </Label>
                             </div>
                           </div>
-                          <Label
+                          {/* <Label
                             htmlFor="file-input"
                             className="flex cursor-pointer items-center gap-2"
                           >
@@ -495,7 +495,7 @@ export function Thread() {
                             multiple
                             accept="image/jpeg,image/png,image/gif,image/webp,application/pdf"
                             className="hidden"
-                          />
+                          /> */}
                         </div>
 
                         {stream.isLoading ? (
